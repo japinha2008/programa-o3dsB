@@ -1,23 +1,97 @@
-palavra_secreta = "girafa"
-letras_acertadas = ["_", "_", "_", "_", "_", "_"]
+
+palavra_secreta = "girafa".lower()
+letras_acertadas = ["_"] * len(palavra_secreta)
 tentativas = 6
 
-while tentativas > 0 and "_" in letras_acertadas:
-    palpite = input("Digite uma letra: ").lower()
+# Desenhos da forca (6 partes: cabeça, tronco, braço esquerdo, braço direito, perna esquerda, perna direita)
+forca = [
+    """
+     ------
+     |    |
+          |
+          |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+          |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+     |    |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|    |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|\\   |
+          |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|\\   |
+    /     |
+          |
+    =========
+    """,
+    """
+     ------
+     |    |
+     O    |
+    /|\\   |
+    / \\   |
+          |
+    =========
+    """
+]
 
-    if palpite in palavra_secreta:
-        index = 0
-        for letra in palavra_secreta:
-            if palpite == letra:
+print("Bem-vindo ao jogo da Forca!")
+print(" ".join(letras_acertadas))
+
+while tentativas > 0 and "_" in letras_acertadas:
+    palpite = input("Digite uma letra: ").lower().strip()
+
+    # Usando count() para verificar se a letra aparece na palavra
+    if palavra_secreta.count(palpite) > 0:
+        # Usando enumerate() e replace() para atualizar as letras acertadas
+        for index, letra in enumerate(palavra_secreta):
+            if letra == palpite:
                 letras_acertadas[index] = letra
-            index += 1
+        print("Boa! Você acertou uma letra.")
     else:
         tentativas -= 1
+        print("Letra incorreta.")
+        print(forca[6 - tentativas])  # Mostra o desenho da forca correspondente
         print(f"Você tem {tentativas} tentativas restantes.")
-    
-    print(" ".join(letras_acertadas))
+
+    print(" ".join(letras_acertadas).upper())  # Mostra as letras em maiúsculo
 
 if "_" not in letras_acertadas:
     print("Parabéns, você ganhou!")
 else:
-    print("Que pena, você perdeu. A palavra era:", palavra_secreta)
+    print("Que pena, você perdeu. A palavra era:", palavra_secreta.upper())
